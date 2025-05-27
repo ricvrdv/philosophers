@@ -9,16 +9,18 @@
 
 int main(int argc, char **argv)
 {
+  t_table *table;
+
+  table = malloc(sizeof(t_table));
   if (argc == 5 || argc == 6)
   {
     // PARSE ARGS				TODO
+    init_table(table, argv);
     // PUT ARGS INSIDE STRUCT	TODO
     // CREATE THREADS			TODO
     // LOCK EACH FORK			TODO
   }
   else
-  {
-    printf("Run the program with 4 or 5 arguments.\n");
-  }
+  	print_error("Run the program with 4 or 5 arguments.\n");
   return (0);
 }
