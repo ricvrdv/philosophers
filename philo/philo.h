@@ -48,14 +48,19 @@ struct s_table
 	t_philo	*philos;
 };
 
-// INIT/
-void	init_table(t_table *table, char **args);
+// PARSE.C
+int		parse_args(t_table *table, char **args);
+
+// INIT.C
+int		init_structs(t_table *table);
 void	init_forks(t_table *table);
 void	init_philos(t_table *table);
 
-// UTILS/
+// UTILS.C
 void	print_error(const char *message);
-void	*safe_malloc(size_t bytes);
 long	ft_atol(const char *str);
+
+// SAFE.C
+void	*safe_malloc(size_t bytes);
 
 #endif

@@ -9,16 +9,20 @@
 
 int main(int argc, char **argv)
 {
-  t_table *table;
+  t_table table;
+  char    **parsed_args;
 
-  table = safe_malloc(sizeof(t_table));
   if (argc == 5 || argc == 6)
   {
-    // PARSE ARGS				TODO
-    // PUT ARGS INSIDE STRUCT	TODO
-    init_table(table, argv);
-    // CREATE THREADS			TODO
-    // LOCK EACH FORK			TODO
+    if (parse_args(&table, argv) == -1)
+    {
+      print_error("Arguments must be positive numbers\n");
+      return (1);
+    }
+    if (init_structs(&table) == -1)
+      return (1);
+    // START SIMULATION TODO
+    // FREE MEMORY      TODO
   }
   else
   	print_error("Run the program with 4 or 5 arguments\n");

@@ -1,7 +1,6 @@
 #include "philo.h"
 
 // print_error()
-// safe_malloc()
 // ft_atol()
 
 void	print_error(const char *message)
@@ -9,23 +8,13 @@ void	print_error(const char *message)
 	int	i;
 
 	i = 0;
-	write(STDERR_FILENO, RED "Error: " RESET, 18);
+	write(STDERR_FILENO, RED"Error: "RESET, 18);
 	while (message[i])
 		i++;
 	write(STDERR_FILENO, message, i);
 }
 
-void	*safe_malloc(size_t bytes)
-{
-	void	*mem;
-
-	mem = malloc(bytes);
-	if (!mem)
-		print_error("Failed to allocate memory\n");
-	return (mem);
-}
-
-static long	convert_digits(const char *str, int sign)
+static long	convert_digits(const char *str)
 {
 	long	result;
 	int		digit;
@@ -37,12 +26,7 @@ static long	convert_digits(const char *str, int sign)
 	{
 		digit = str[i] - '0';
 		if (result > (LONG_MAX - digit) / 10)
-		{
-			if (sign == 1)
-				return (LONG_MAX);
-			else
-				return (LONG_MIN);
-		}
+			return (LONG_MAX);
 		result = result * 10 + digit;
 		i++;
 	}
@@ -52,19 +36,15 @@ static long	convert_digits(const char *str, int sign)
 long    ft_atol(const char *str)
 {
     int     i;
-    int     sign;
 
     i = 0;
-    sign = 1;
     if (!str)
-        return (0);
+        return (-1);
     while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
         i++;
-    if (str[i] == '-' || str[i] == '+')
-    {
-        if (str[i] == '-')
-            sign = -1;
-        i++;
-    }
-    return (sign * convert_digits(str + i, sign));
+    if (str[i] == '+')
+		i++;
+	else if (str[i] == '-')
+		return (-1);
+    return (convert_digits(str + i));
 }

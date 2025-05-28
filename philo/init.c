@@ -1,34 +1,39 @@
 #include "philo.h"
 
-// init_table()
+// parse_input()
 // init_forks()
 // init_philos()
 
-static long  get_time_in_ms(void)
+int	init_structs(t_table *table)
 {
-  struct timeval	tv;
-  
-  if (gettimeofday(&tv, NULL) == -1)
-    return (-1); 
-  return (tv.tv_sec * 1000L + tv.tv_usec / 1000);
-}
+	int	i;
 
-void  init_table(t_table *table, char **args)
-{
-	long	timestamp;
-
-	timestamp = get_time_in_ms();
-	if (timestamp == -1)
-		print_error("Failed to get current time\n");
-	table->nbr_philos = ft_atol(args[1]);
-	table->time_to_die = ft_atol(args[2]);
-	table->time_to_eat = ft_atol(args[3]);
-	table->time_to_sleep = ft_atol(args[4]);
-	table->nbr_limit_meals = ft_atol(args[5]);
-	table->start_simulation = timestamp;
+	i = 0;
 	table->end_simulation = false;
-	init_forks(table);
-	init_philos(table);
+	table->forks = malloc(sizeof(t_fork) * table->nbr_philos);
+	if (!table->forks)
+	{
+		print_error("Failed to allocate forks\n");
+		return (-1);
+	}
+	table->philos = malloc(sizeof(t_philo) * table->nbr_philos);
+	if (!table->philos)
+	{
+		free(table->forks);
+		print_error("Failed to allocate philos\n");
+		return (-1);
+	}
+	while (i < table->nbr_philos)
+	{
+		if (pthread_mutex_init(&table->forks[i].fork, NULL) != 0)
+		{
+			print_error("Failed mutex init\n");
+			return (-1);
+		}
+		table->forks[i].fork_id = i;
+		i++;
+	}
+	return (0);
 }
 
 void	init_forks(t_table *table)
