@@ -1,14 +1,11 @@
 #include "philo.h"
 
-// parse_input()
+// init_structs()
 // init_forks()
 // init_philos()
 
 int	init_structs(t_table *table)
 {
-	int	i;
-
-	i = 0;
 	table->end_simulation = false;
 	table->forks = malloc(sizeof(t_fork) * table->nbr_philos);
 	if (!table->forks)
@@ -16,6 +13,7 @@ int	init_structs(t_table *table)
 		print_error("Failed to allocate forks\n");
 		return (-1);
 	}
+	memset(table->forks, 0, sizeof(t_fork) * table->nbr_philos);
 	table->philos = malloc(sizeof(t_philo) * table->nbr_philos);
 	if (!table->philos)
 	{
@@ -23,10 +21,31 @@ int	init_structs(t_table *table)
 		print_error("Failed to allocate philos\n");
 		return (-1);
 	}
+	memset(table->philos, 0, sizeof(t_philo) * table->nbr_philos);
+	if (init_forks(table) == -1)
+		return (-1);
+	init_philos(table);
+	return (0);
+}
+
+int	init_forks(t_table *table)
+{
+	int	i;
+	int	j;
+
+	i = 0;
 	while (i < table->nbr_philos)
 	{
 		if (pthread_mutex_init(&table->forks[i].fork, NULL) != 0)
 		{
+			j = 0;
+			while (j < i)
+			{
+				pthread_mutex_destroy(&table->forks[j].fork);
+				j++;
+			}
+			free(table->forks);
+			free(table->philos);
 			print_error("Failed mutex init\n");
 			return (-1);
 		}
@@ -36,42 +55,26 @@ int	init_structs(t_table *table)
 	return (0);
 }
 
-void	init_forks(t_table *table)
-{
-	t_fork	*fork;
-	int		i;
-
-	i = 0;
-	table->forks = safe_malloc(sizeof(t_fork) * table->nbr_philos);
-	while (i < table->nbr_philos)
-	{
-		fork = &table->forks[i];
-		memset(fork, 0, sizeof(t_fork));
-		fork->fork_id = i;
-		if (pthread_mutex_init(&fork->fork, NULL) != 0)
-			print_error("Failed mutex init\n");
-		i++;
-	}
-}
-
 void	init_philos(t_table *table)
 {
 	t_philo	*philo;
 	int		i;
-	
+
 	i = 0;
-	table->philos = safe_malloc(sizeof(t_philo) * table->nbr_philos);
 	while (i < table->nbr_philos)
 	{
 		philo = &table->philos[i];
-		memset(philo, 0, sizeof(t_philo));
 		philo->id = i + 1;
+		philo->full = false;
 		philo->meal_count = 0;
-		philo->last_meal_time = table->start_simulation; // CHECK THIS
-		philo->left_fork = &table->forks[i];
-		philo->right_fork = &table->forks[(i + 1) % table->nbr_philos];
-		philo->thread_id = 0;
 		philo->table = table;
+		philo->first_fork = &table->forks[(i + 1) % table->nbr_philos];
+		philo->second_fork = &table->forks[i];
+		if (philo->id % 2 == 0)
+		{
+			philo->first_fork = &table->forks[i];
+			philo->second_fork = &table->forks[(i + 1) % table->nbr_philos];
+		}
 		i++;
 	}
 }

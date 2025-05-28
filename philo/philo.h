@@ -29,8 +29,8 @@ typedef struct s_philo
 	long		meal_count;
 	bool		full;
 	long		last_meal_time;
-	t_fork		*left_fork;
-	t_fork		*right_fork;
+	t_fork		*first_fork;
+	t_fork		*second_fork;
 	t_thread	thread_id;
 	t_table		*table;
 }				t_philo;
@@ -53,7 +53,7 @@ int		parse_args(t_table *table, char **args);
 
 // INIT.C
 int		init_structs(t_table *table);
-void	init_forks(t_table *table);
+int		init_forks(t_table *table);
 void	init_philos(t_table *table);
 
 // UTILS.C

@@ -10,7 +10,6 @@
 int main(int argc, char **argv)
 {
   t_table table;
-  char    **parsed_args;
 
   if (argc == 5 || argc == 6)
   {

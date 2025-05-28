@@ -1,14 +1,5 @@
 #include "philo.h"
 
-static long  get_time_in_ms(void)
-{
-  struct timeval	tv;
-  
-  if (gettimeofday(&tv, NULL) == -1)
-    return (-1); 
-  return (tv.tv_sec * 1000L + tv.tv_usec / 1000);
-}
-
 int	parse_args(t_table *table, char **args)
 {
 	table->nbr_philos = ft_atol(args[1]);
