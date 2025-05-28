@@ -10,6 +10,9 @@
 # include <limits.h>
 # include <stdbool.h>
 
+# define RED "\033[1;31m"
+# define RESET "\033[0m;"
+
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
 typedef struct s_table	t_table;
@@ -46,10 +49,13 @@ struct s_table
 };
 
 // INIT/
-void  init_table(t_table *table, char **args);
+void	init_table(t_table *table, char **args);
+void	init_forks(t_table *table);
+void	init_philos(t_table *table);
 
 // UTILS/
 void	print_error(const char *message);
+void	*safe_malloc(size_t bytes);
 long	ft_atol(const char *str);
 
 #endif

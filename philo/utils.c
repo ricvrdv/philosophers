@@ -1,16 +1,28 @@
 #include "philo.h"
 
-// print_error()	ft_atol()
+// print_error()
+// safe_malloc()
+// ft_atol()
 
 void	print_error(const char *message)
 {
 	int	i;
 
 	i = 0;
-	write(STDERR_FILENO, "\033[1;31mError: \033[0m", 18);
+	write(STDERR_FILENO, RED "Error: " RESET, 18);
 	while (message[i])
 		i++;
 	write(STDERR_FILENO, message, i);
+}
+
+void	*safe_malloc(size_t bytes)
+{
+	void	*mem;
+
+	mem = malloc(bytes);
+	if (!mem)
+		print_error("Failed to allocate memory\n");
+	return (mem);
 }
 
 static long	convert_digits(const char *str, int sign)

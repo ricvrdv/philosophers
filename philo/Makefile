@@ -1,3 +1,7 @@
+##############################################################################
+# CONFIG                                                                     #
+##############################################################################
+
 NAME = philo
 
 CC = cc
@@ -6,11 +10,29 @@ CFLAGS = -Wall -Wextra -Werror
 
 RM = rm -rf
 
+##############################################################################
+# SOURCE FILES                                                               #
+##############################################################################
+
 SRC = main.c \
 	init.c \
 	utils.c
 
 OBJ = $(SRC:.c=.o)
+
+##############################################################################
+# COLORS                                                                     #
+##############################################################################
+
+RED = \033[1;31m
+
+GREEN = \033[1;32m
+
+RESET = \033[0m
+
+##############################################################################
+# RULES                                                                      #
+##############################################################################
 
 all: $(NAME)
 
@@ -19,24 +41,26 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
-	@echo "\033[1;32mCompilation Successful!\033[0m"
+	@echo "$(GREEN)Compilation Successful!$(RESET)"
 
 clean:
 	@if ls $(OBJ) 1> /dev/null 2>&1; then \
 		$(RM) $(OBJ); \
-		echo "\033[1;31mIntermediate object files removed:\033[0m\n$(OBJ)"; \
+		echo "$(RED)Intermediate object files removed:$(RESET)\n$(OBJ)"; \
 	else \
-		echo "\033[1;31mNo object files to remove.\033[0m"; \
+		echo "$(RED)No object files to remove.$(RESET)"; \
 	fi
 
 fclean: clean
 	@if [ -f $(NAME) ]; then \
 		$(RM) $(NAME); \
-		echo "\033[1;31mCompiled executable removed:\033[0m\n$(NAME)"; \
+		echo "$(RED)Compiled executable removed:$(RESET)\n$(NAME)"; \
 	else \
-		echo "\033[1;31mNo executable to remove.\033[0m"; \
+		echo "$(RED)No executable to remove.$(RESET)"; \
 	fi
 
 re: fclean all
 
 .PHONY: all clean fclean re
+
+##############################################################################
