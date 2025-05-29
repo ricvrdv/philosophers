@@ -56,6 +56,10 @@ int		init_structs(t_table *table);
 int		init_forks(t_table *table);
 void	init_philos(t_table *table);
 
+// START.C
+int		start_simulation(t_table *table);
+void	*dinner_simulation(void *data);
+
 // UTILS.C
 void	print_error(const char *message);
 long	ft_atol(const char *str);

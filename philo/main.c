@@ -15,12 +15,14 @@ int main(int argc, char **argv)
   {
     if (parse_args(&table, argv) == -1)
     {
-      print_error("Arguments must be positive numbers\n");
+      print_error("Arguments must be 0 or positive numbers\n");
       return (1);
     }
     if (init_structs(&table) == -1)
       return (1);
-    // START SIMULATION TODO
+    //printf("argv 1: %ld\nargv 2: %ld\nargv 3: %ld\nargv 4: %ld\nargv 5: %ld\n", table.nbr_philos, table.time_to_die, table.time_to_eat, table.time_to_sleep, table.nbr_limit_meals);
+    if (start_simulation(&table) == -1)
+      return (1);
     // FREE MEMORY      TODO
   }
   else

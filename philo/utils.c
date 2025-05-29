@@ -31,7 +31,7 @@ static long	convert_digits(const char *str)
 
 	i = 0;
 	result = 0;
-	if (str[i] <= '0' || str[i] >= '9')
+	if (str[i] < '0' || str[i] > '9')
 		return (-1);
 	while (str[i] >= '0' && str[i] <= '9')
 	{

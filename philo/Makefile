@@ -17,6 +17,7 @@ RM = rm -rf
 SRC = main.c \
 	parse.c \
 	init.c \
+	start.c \
 	utils.c \
 	safe.c
 

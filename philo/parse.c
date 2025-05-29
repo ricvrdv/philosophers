@@ -20,5 +20,7 @@ int	parse_args(t_table *table, char **args)
 		if (table->nbr_limit_meals == -1)
 			return (-1);
 	}
+	else
+		table->nbr_limit_meals = -1;
 	return (0);
 }
