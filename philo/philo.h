@@ -22,8 +22,9 @@
 # include <limits.h>
 # include <stdbool.h>
 
-# define RED "\033[1;31m"
-# define RESET "\033[0m;"
+# define RED	"\033[1;31m"
+# define GREEN	"\033[1;32m"
+# define RESET	"\033[0m;"
 
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
@@ -56,6 +57,9 @@ struct s_table
 	long	nbr_limit_meals;
 	long	start_simulation;
 	bool	end_simulation;
+	bool	all_threads_ready;
+	bool	simul_fail;
+	t_mutex	table_mutex;
 	t_fork	*forks;
 	t_philo	*philos;
 };
@@ -71,6 +75,16 @@ void	init_philos(t_table *table);
 // START.C
 int		start_simulation(t_table *table);
 void	*dinner_simulation(void *data);
+
+// GET_AND_SET.C
+int		set_bool(t_mutex *mutex, bool *dest, bool value);
+int		get_bool(t_mutex *mutex, bool *value);
+int		set_long(t_mutex *mutex, long *dest, long value);
+long	get_long(t_mutex *mutex, long *value);
+int		simulation_finished(t_table *table);
+
+// SYNCHRO.C
+int		wait_all_threads(t_table *table);
 
 // UTILS.C
 void	print_error(const char *message);

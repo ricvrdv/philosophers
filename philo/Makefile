@@ -6,7 +6,7 @@ NAME = philo
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 
 RM = rm -rf
 
@@ -18,6 +18,8 @@ SRC = main.c \
 	parse.c \
 	init.c \
 	start.c \
+	get_and_set.c \
+	synchro.c \
 	utils.c \
 	safe.c
 
@@ -49,7 +51,7 @@ $(NAME): $(OBJ)
 clean:
 	@if ls $(OBJ) 1> /dev/null 2>&1; then \
 		$(RM) $(OBJ); \
-		echo "$(RED)Intermediate object files removed:$(RESET)\n$(OBJ)"; \
+		echo "$(GREEN)Intermediate object files removed:$(RESET)\n$(OBJ)"; \
 	else \
 		echo "$(RED)No object files to remove.$(RESET)"; \
 	fi
@@ -57,7 +59,7 @@ clean:
 fclean: clean
 	@if [ -f $(NAME) ]; then \
 		$(RM) $(NAME); \
-		echo "$(RED)Compiled executable removed:$(RESET)\n$(NAME)"; \
+		echo "$(GREEN)Compiled executable removed:$(RESET)\n$(NAME)"; \
 	else \
 		echo "$(RED)No executable to remove.$(RESET)"; \
 	fi

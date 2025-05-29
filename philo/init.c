@@ -19,21 +19,30 @@
 int	init_structs(t_table *table)
 {
 	table->end_simulation = false;
-	table->forks = malloc(sizeof(t_fork) * table->nbr_philos);
-	if (!table->forks)
-	{
-		print_error("Failed to allocate forks\n");
-		return (-1);
-	}
-	memset(table->forks, 0, sizeof(t_fork) * table->nbr_philos);
+	table->all_threads_ready = false;
+	table->simul_fail = false;
 	table->philos = malloc(sizeof(t_philo) * table->nbr_philos);
 	if (!table->philos)
 	{
-		free(table->forks);
 		print_error("Failed to allocate philos\n");
 		return (-1);
 	}
 	memset(table->philos, 0, sizeof(t_philo) * table->nbr_philos);
+	table->forks = malloc(sizeof(t_fork) * table->nbr_philos);
+	if (!table->forks)
+	{
+		free(table->philos);
+		print_error("Failed to allocate forks\n");
+		return (-1);
+	}
+	memset(table->forks, 0, sizeof(t_fork) * table->nbr_philos);
+	if (pthread_mutex_init(&table->table_mutex, NULL) != 0)
+	{
+		free(table->philos);
+		free(table->forks);
+		print_error("Failed mutex init\n");
+		return (-1);
+	}
 	if (init_forks(table) == -1)
 		return (-1);
 	init_philos(table);
@@ -56,6 +65,7 @@ int	init_forks(t_table *table)
 				pthread_mutex_destroy(&table->forks[j].fork);
 				j++;
 			}
+			pthread_mutex_destroy(&table->table_mutex);
 			free(table->forks);
 			free(table->philos);
 			print_error("Failed mutex init\n");
