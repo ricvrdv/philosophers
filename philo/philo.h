@@ -21,10 +21,22 @@
 # include <pthread.h>
 # include <limits.h>
 # include <stdbool.h>
+# include <errno.h>
 
 # define RED	"\033[1;31m"
 # define GREEN	"\033[1;32m"
-# define RESET	"\033[0m;"
+# define RESET	"\033[0m"
+
+typedef enum e_code
+{
+	CREATE,
+	JOIN,
+	DETACH,
+	LOCK,
+	UNLOCK,
+	INIT,
+	DESTROY,
+}	t_code;
 
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
@@ -92,5 +104,8 @@ long	ft_atol(const char *str);
 
 // SAFE.C
 void	*safe_malloc(size_t bytes);
+int		safe_thread(pthread_t *thread, void *(*foo)(void *), void *data,
+			t_code op);
+int		safe_mutex(t_mutex *mutex, t_code op);
 
 #endif

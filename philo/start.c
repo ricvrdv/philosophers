@@ -26,26 +26,27 @@ int	start_simulation(t_table *table)
 	{
 		while (i < table->nbr_philos)
 		{
-			if (pthread_create(&table->philos[i].thread_id, NULL,
-					dinner_simulation, &table->philos[i]) != 0)
+			if (safe_thread(&table->philos[i].thread_id, dinner_simulation,
+					&table->philos[i], CREATE) == -1)
 			{
 				j = 0;
 				while (j < i)
 				{
-					pthread_join(table->philos[j].thread_id, NULL);
+					if (safe_thread(&table->philos[j].thread_id, NULL, NULL,
+							JOIN) == -1)
+						return (free(table->philos), free(table->forks), -1);
 					j++;
 				}
 				j = 0;
 				while (j < table->nbr_philos)
 				{
-					pthread_mutex_destroy(&table->forks[j].fork);
+					if (safe_mutex(&table->forks[j].fork, DESTROY) == -1)
+						return (free(table->philos), free(table->forks), -1);
 					j++;
 				}
-				pthread_mutex_destroy(&table->table_mutex);
-				free(table->philos);
-				free(table->forks);
-				print_error("Failed to create thread\n");
-				return (-1);
+				if (safe_mutex(&table->table_mutex, DESTROY) == -1)
+					return (free(table->philos), free(table->forks), -1);
+				return (free(table->philos), free(table->forks), -1);
 			}
 			i++;
 		}
@@ -73,7 +74,7 @@ void	*dinner_simulation(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	printf("Philosopher "GREEN"%d"RESET" thread started (ID: "GREEN"%lu"RESET" )\n", philo->id, philo->thread_id);
+	printf("Philosopher "GREEN"%d"RESET" thread started (ID: "GREEN"%lu"RESET")\n", philo->id, philo->thread_id);
 	if (wait_all_threads(philo->table) == -1)
 	{
 		set_bool(&philo->table->table_mutex, &philo->table->simul_fail, true);

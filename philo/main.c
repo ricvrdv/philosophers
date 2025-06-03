@@ -23,17 +23,25 @@ int	main(int argc, char **argv)
 {
 	t_table	table;
 
+	memset(&table, 0, sizeof(table)); // CHECK THIS
 	if (argc == 5 || argc == 6)
 	{
 		if (parse_args(&table, argv) == -1)
 		{
 			print_error("Arguments must be 0 or positive numbers\n");
+			//cleanup(&table);
 			return (1);
 		}
 		if (init_structs(&table) == -1)
+		{
+			//cleanup(&table);
 			return (1);
+		}
 		if (start_simulation(&table) == -1)
+		{
+			//cleanup(&table);
 			return (1);
+		}
 	}
 	else
 		print_error("Run the program with 4 or 5 arguments\n");
