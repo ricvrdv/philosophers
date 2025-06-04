@@ -45,6 +45,16 @@ typedef enum e_time
 	MICROSECOND,
 }	t_time;
 
+typedef enum e_stage
+{
+	NO_INIT,
+	PHILOS_ALLOCATED,
+	FORKS_ALLOCATED,
+	MTX_INITIALIZED,
+	THREADS_STARTED,
+	THREADS_JOINED,
+}	t_stage;
+
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
 typedef struct s_table	t_table;
@@ -81,6 +91,7 @@ struct s_table
 	t_mutex	table_mutex;
 	t_fork	*forks;
 	t_philo	*philos;
+	t_stage	error_stage;
 };
 
 // PARSE.C
@@ -115,5 +126,12 @@ void	*safe_malloc(size_t bytes);
 int		safe_thread(pthread_t *thread, void *(*foo)(void *), void *data,
 			t_code op);
 int		safe_mutex(t_mutex *mutex, t_code op);
+
+// CLEAN.C
+void	cleanup(t_table *table);
+
+// DEBUG.C
+void	print_table(t_table *table);
+void	print_thread(t_philo *philo);
 
 #endif

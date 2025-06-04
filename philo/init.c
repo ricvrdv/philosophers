@@ -24,13 +24,16 @@ int	init_structs(t_table *table)
 	table->philos = safe_malloc(sizeof(t_philo) * table->nbr_philos);
 	if (!table->philos)
 		return (-1);
+	//table->error_stage = PHILOS_ALLOCATED;
 	memset(table->philos, 0, sizeof(t_philo) * table->nbr_philos);
 	table->forks = safe_malloc(sizeof(t_fork) * table->nbr_philos);
 	if (!table->forks)
 		return (free(table->philos), -1);
+	//table->error_stage = FORKS_ALLOCATED;
 	memset(table->forks, 0, sizeof(t_fork) * table->nbr_philos);
 	if (safe_mutex(&table->table_mutex, INIT) == -1)
 		return (free(table->philos), free(table->forks), -1);
+	//table->error_stage = MTX_INITIALIZED;
 	if (init_forks(table) == -1)
 		return (-1);
 	init_philos(table);

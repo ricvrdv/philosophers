@@ -21,7 +21,9 @@ SRC = main.c \
 	get_and_set.c \
 	synchro.c \
 	utils.c \
-	safe.c
+	safe.c \
+	clean.c \
+	debug.c
 
 OBJ = $(SRC:.c=.o)
 

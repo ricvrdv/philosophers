@@ -23,7 +23,8 @@ int	main(int argc, char **argv)
 {
 	t_table	table;
 
-	memset(&table, 0, sizeof(table)); // CHECK THIS
+	memset(&table, 0, sizeof(table));
+	//table.error_stage = NO_INIT;
 	if (argc == 5 || argc == 6)
 	{
 		if (parse_args(&table, argv) == -1)
@@ -32,6 +33,7 @@ int	main(int argc, char **argv)
 			//cleanup(&table);
 			return (1);
 		}
+		//print_table(&table);
 		if (init_structs(&table) == -1)
 		{
 			//cleanup(&table);
