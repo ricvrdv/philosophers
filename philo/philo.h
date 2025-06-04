@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjesus-d <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:07:07 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/05/29 15:07:10 by rjesus-d         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:12:05 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ typedef enum e_code
 	INIT,
 	DESTROY,
 }	t_code;
+
+typedef enum e_time
+{
+	SECOND,
+	MILLISECOND,
+	MICROSECOND,
+}	t_time;
 
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
@@ -101,6 +108,7 @@ int		wait_all_threads(t_table *table);
 // UTILS.C
 void	print_error(const char *message);
 long	ft_atol(const char *str);
+long	gettime(t_time time_code);
 
 // SAFE.C
 void	*safe_malloc(size_t bytes);

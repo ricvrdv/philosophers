@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjesus-d <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:01:13 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/05/29 15:04:20 by rjesus-d         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:12:17 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,7 @@
 
 // print_error()
 // ft_atol()
-
-long	get_time_in_ms(void)
-{
-	struct timeval	tv;
-
-	if (gettimeofday(&tv, NULL) == -1)
-		return (-1);
-	return (tv.tv_sec * 1000L + tv.tv_usec / 1000);
-}
+// gettime()
 
 void	print_error(const char *message)
 {
@@ -70,4 +62,26 @@ long	ft_atol(const char *str)
 	else if (str[i] == '-')
 		return (-1);
 	return (convert_digits(str + i));
+}
+
+long	gettime(t_time time_code)
+{
+	struct timeval	tv;
+
+	if (gettimeofday(&tv, NULL) == -1)
+	{
+		print_error("gettimeofday failed\n");
+		return (-1);
+	}
+	if (time_code == SECOND)
+		return (tv.tv_sec + (tv.tv_usec / 1e6));
+	else if (time_code == MILLISECOND)
+		return ((tv.tv_sec * 1e3) + (tv.tv_usec / 1e3));
+	else if (time_code == MICROSECOND)
+		return ((tv.tv_sec * 1e6) + tv.tv_usec);
+	else
+	{
+		print_error("wrong input to gettime\n");
+		return (-1);
+	}
 }
