@@ -88,6 +88,6 @@ void	*dinner_simulation(void *data)
 		set_bool(&philo->table->table_mutex, &philo->table->simul_fail, true);
 		return (NULL);
 	}
-	print_thread(philo);
+	//print_thread(philo);
 	return (NULL);
 }
