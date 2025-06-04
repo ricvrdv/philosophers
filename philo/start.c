@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjesus-d <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:06:16 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/05/29 15:06:18 by rjesus-d         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:37:19 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	start_simulation(t_table *table)
 			i++;
 		}
 	}
+	table->start_simulation = gettime(MILLISECOND);
 	if (set_bool(&table->table_mutex, &table->all_threads_ready, true) != 0)
 		return (-1);
 	i = 0;
