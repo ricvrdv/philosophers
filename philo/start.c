@@ -74,7 +74,7 @@ void	*dinner_simulation(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	printf("Philosopher "GREEN"%d"RESET" thread started (ID: "GREEN"%lu"RESET")\n", philo->id, philo->thread_id);
+	//printf("Philosopher "GREEN"%d"RESET" thread started (ID: "GREEN"%lu"RESET")\n", philo->id, philo->thread_id);
 	if (wait_all_threads(philo->table) == -1)
 	{
 		set_bool(&philo->table->table_mutex, &philo->table->simul_fail, true);
