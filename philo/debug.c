@@ -12,7 +12,7 @@ void	print_table(t_table *table)
 void	print_thread(t_philo *philo)
 {
 	printf("id =\t%d\n", philo->id);
-	printf("thread_id =\t%lu\n", philo->thread_id);
+	//printf("thread_id =\t%lu\n", philo->thread_id);
 	printf("1st fork id =\t%d\n", philo->first_fork->fork_id);
 	printf("2nd fork id =\t%d\n\n", philo->second_fork->fork_id);
 }

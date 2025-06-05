@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjesus-d <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:05:41 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/05/29 15:06:04 by rjesus-d         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:45:22 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	init_structs(t_table *table)
 	if (safe_mutex(&table->table_mutex, INIT) == -1)
 		return (free(table->philos), free(table->forks), -1);
 	//table->error_stage = MTX_INITIALIZED;
+	if (safe_mutex(&table->write_mutex, INIT) == -1)
+		return (free(table->philos), free(table->forks), -1);
 	if (init_forks(table) == -1)
 		return (-1);
 	init_philos(table);
@@ -80,6 +82,8 @@ void	init_philos(t_table *table)
 		philo->full = false;
 		philo->meal_count = 0;
 		philo->table = table;
+		if (safe_mutex(&philo->philo_mutex, INIT) == -1)
+			break ;
 		philo->first_fork = &table->forks[(i + 1) % table->nbr_philos];
 		philo->second_fork = &table->forks[i];
 		if (philo->id % 2 == 0)

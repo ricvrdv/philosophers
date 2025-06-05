@@ -20,6 +20,7 @@ SRC = main.c \
 	start.c \
 	get_and_set.c \
 	synchro.c \
+	write.c \
 	utils.c \
 	safe.c \
 	clean.c \
