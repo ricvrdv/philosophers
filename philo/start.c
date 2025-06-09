@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:06:16 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/05 14:42:26 by applecore        ###   ########.fr       */
+/*   Updated: 2025/06/09 13:00:48 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int	start_simulation(t_table *table)
 	if (table->nbr_limit_meals == 0)
 		return (0);
 	else if (table->nbr_philos == 1)
-		; // TODO
+	{
+		if (safe_thread(&table->philos[0].thread_id, lone_philo, &table->philos[0], CREATE) == -1)
+			return (-1);
+	}
 	else
 	{
 		while (i < table->nbr_philos)
@@ -53,6 +56,8 @@ int	start_simulation(t_table *table)
 		}
 	}
 	//table->error_stage = THREADS_STARTED;
+	if (safe_thread(&table->monitor, monitor_dinner, table, CREATE) == -1)
+		return (-1);
 	table->start_simulation = gettime(MILLISECOND);
 	if (set_bool(&table->table_mutex, &table->all_threads_ready, true) != 0)
 		return (-1);
@@ -86,6 +91,13 @@ void	*dinner_simulation(void *data)
 	philo = (t_philo *)data;
 	//printf("Philosopher "GREEN"%d"RESET" thread started (ID: "GREEN"%lu"RESET")\n", philo->id, philo->thread_id);
 	if (wait_all_threads(philo->table) == -1)
+	{
+		set_bool(&philo->table->table_mutex, &philo->table->simul_fail, true);
+		return (NULL);
+	}
+	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECOND));
+	if (count_running(&philo->table->table_mutex,
+			&philo->table->threads_running) == -1)
 	{
 		set_bool(&philo->table->table_mutex, &philo->table->simul_fail, true);
 		return (NULL);
@@ -138,4 +150,27 @@ int	thinking(t_philo *philo)
 	if (write_status(THINKING, philo) == -1)
 		return (-1);
 	return (0);
+}
+
+void	*lone_philo(void *data)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)data;
+	if (wait_all_threads(philo->table) == -1)
+	{
+		set_bool(&philo->table->table_mutex, &philo->table->simul_fail, true);
+		return (NULL);
+	}
+	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECOND));
+	if (count_running(&philo->table->table_mutex,
+			&philo->table->threads_running) == -1)
+	{
+		set_bool(&philo->table->table_mutex, &philo->table->simul_fail, true);
+		return (NULL);
+	}
+	write_status(TAKE_FIRST_FORK, philo);
+	while (!simulation_finished(philo->table))
+		usleep(200);
+	return (NULL);
 }

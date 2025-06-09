@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:07:07 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/05 13:35:56 by applecore        ###   ########.fr       */
+/*   Updated: 2025/06/09 13:01:57 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,20 +90,22 @@ typedef struct s_philo
 
 struct s_table
 {
-	long	nbr_philos;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	nbr_limit_meals;
-	long	start_simulation;
-	bool	end_simulation;
-	bool	all_threads_ready;
-	bool	simul_fail;
-	t_mutex	table_mutex;
-	t_mutex	write_mutex;
-	t_fork	*forks;
-	t_philo	*philos;
-	t_stage	error_stage;
+	long		nbr_philos;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		nbr_limit_meals;
+	long		start_simulation;
+	long		threads_running;
+	bool		end_simulation;
+	bool		all_threads_ready;
+	bool		simul_fail;
+	t_thread	monitor;
+	t_mutex		table_mutex;
+	t_mutex		write_mutex;
+	t_fork		*forks;
+	t_philo		*philos;
+	t_stage		error_stage;
 };
 
 // PARSE.C
@@ -119,6 +121,7 @@ int		start_simulation(t_table *table);
 void	*dinner_simulation(void *data);
 int		eat(t_philo *philo);
 int		thinking(t_philo *philo);
+void	*lone_philo(void *data);
 
 // GET_AND_SET.C
 int		set_bool(t_mutex *mutex, bool *dest, bool value);
@@ -129,6 +132,11 @@ int		simulation_finished(t_table *table);
 
 // SYNCHRO.C
 int		wait_all_threads(t_table *table);
+int		all_threads_running(t_mutex *mutex, long *threads, long philo_nbr);
+int		count_running(t_mutex *mutex, long *value);
+
+// MONITOR.C
+void	*monitor_dinner(void * data);
 
 // WRITE.C
 int		write_status(t_status status, t_philo *philo);
