@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:06:16 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/09 13:00:48 by applecore        ###   ########.fr       */
+/*   Updated: 2025/06/16 11:24:05 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	start_simulation(t_table *table)
 	}
 	if (set_bool(&table->table_mutex, &table->end_simulation, true) == -1)
 		return (-1);
+	if (safe_thread(&table->monitor, NULL, NULL, JOIN) == -1)
+		return (-1);
 	//printf("\n> Created "GREEN"%ld"RESET" philosopher threads\n\n", table->nbr_philos);
 	return (0);
 }
@@ -102,7 +104,8 @@ void	*dinner_simulation(void *data)
 		set_bool(&philo->table->table_mutex, &philo->table->simul_fail, true);
 		return (NULL);
 	}
-	//print_thread(philo);
+	desynchronize_philos(philo);
+	print_thread(philo);
 	while (!simulation_finished(philo->table))
 	{
 		if (philo->full)
@@ -110,7 +113,7 @@ void	*dinner_simulation(void *data)
 		eat(philo);
 		write_status(SLEEPING, philo);
 		usleep(philo->table->time_to_sleep * 1e3); // CONVERT MILLISECONDS TO MICROSECONDS
-		thinking(philo);
+		thinking(philo, false);
 	}
 	return (NULL);
 }
@@ -145,10 +148,25 @@ int	eat(t_philo *philo)
 	return (0);
 }
 
-int	thinking(t_philo *philo)
+int	thinking(t_philo *philo, bool pre_simulation)
 {
-	if (write_status(THINKING, philo) == -1)
-		return (-1);
+	long	time_eat;
+	long	time_sleep;
+	long	time_think;
+
+	if (!pre_simulation) 
+	{
+		if (write_status(THINKING, philo) == -1)
+			return (-1);
+	}
+	if (philo->table->nbr_philos % 2 == 0)
+		return (0);
+	time_eat = philo->table->time_to_eat;
+	time_sleep = philo->table->time_to_sleep;
+	time_think = time_eat * 2 - time_sleep;
+	if (time_think < 0)
+		time_think = 0;
+	usleep(time_think * 0.42);
 	return (0);
 }
 

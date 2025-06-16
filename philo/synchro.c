@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:37:57 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/09 12:32:12 by applecore        ###   ########.fr       */
+/*   Updated: 2025/06/16 11:02:23 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,18 @@ int	count_running(t_mutex *mutex, long *value)
     if (safe_mutex(mutex, UNLOCK) == -1)
         return (-1);
 	return (0);
+}
+
+void    desynchronize_philos(t_philo *philo)
+{
+    if (philo->table->nbr_philos % 2 == 0)
+    {
+        if (philo->id % 2 == 0)
+            usleep(3e4);
+    }
+    else
+    {
+        if (philo->id % 2)
+            thinking(philo, true);
+    }
 }

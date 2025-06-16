@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:07:07 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/09 13:01:57 by applecore        ###   ########.fr       */
+/*   Updated: 2025/06/16 11:02:41 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	init_philos(t_table *table);
 int		start_simulation(t_table *table);
 void	*dinner_simulation(void *data);
 int		eat(t_philo *philo);
-int		thinking(t_philo *philo);
+int		thinking(t_philo *philo, bool pre_simulation);
 void	*lone_philo(void *data);
 
 // GET_AND_SET.C
@@ -134,6 +134,7 @@ int		simulation_finished(t_table *table);
 int		wait_all_threads(t_table *table);
 int		all_threads_running(t_mutex *mutex, long *threads, long philo_nbr);
 int		count_running(t_mutex *mutex, long *value);
+void	desynchronize_philos(t_philo *philo);
 
 // MONITOR.C
 void	*monitor_dinner(void * data);
