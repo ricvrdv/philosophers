@@ -47,7 +47,7 @@ int	count_running(t_mutex *mutex, long *value)
     (*value)++;
     if (safe_mutex(mutex, UNLOCK) == -1)
         return (-1);
-	return (0);
+    return (0);
 }
 
 void    desynchronize_philos(t_philo *philo)

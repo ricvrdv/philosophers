@@ -24,21 +24,20 @@ int	init_structs(t_table *table)
 	table->philos = safe_malloc(sizeof(t_philo) * table->nbr_philos);
 	if (!table->philos)
 		return (-1);
-	//table->error_stage = PHILOS_ALLOCATED;
 	memset(table->philos, 0, sizeof(t_philo) * table->nbr_philos);
 	table->forks = safe_malloc(sizeof(t_fork) * table->nbr_philos);
 	if (!table->forks)
 		return (free(table->philos), -1);
-	//table->error_stage = FORKS_ALLOCATED;
 	memset(table->forks, 0, sizeof(t_fork) * table->nbr_philos);
 	if (safe_mutex(&table->table_mutex, INIT) == -1)
 		return (free(table->philos), free(table->forks), -1);
-	//table->error_stage = MTX_INITIALIZED;
 	if (safe_mutex(&table->write_mutex, INIT) == -1)
 		return (free(table->philos), free(table->forks), -1);
+	table->ready_write_mtx = true;
 	if (init_forks(table) == -1)
-		return (-1);
-	init_philos(table);
+		return (free(table->philos), free(table->forks), -1);
+	if (init_philos(table) == -1)
+		return (free(table->philos), free(table->forks), -1);
 	return (0);
 }
 
@@ -61,7 +60,7 @@ int	init_forks(t_table *table)
 			}
 			if (safe_mutex(&table->table_mutex, DESTROY) == -1)
 				return (-1);
-			return (free(table->forks), free(table->philos), -1);
+			return (-1);
 		}
 		table->forks[i].fork_id = i;
 		i++;
@@ -69,7 +68,7 @@ int	init_forks(t_table *table)
 	return (0);
 }
 
-void	init_philos(t_table *table)
+int	init_philos(t_table *table)
 {
 	t_philo	*philo;
 	int		i;
@@ -83,7 +82,7 @@ void	init_philos(t_table *table)
 		philo->meal_count = 0;
 		philo->table = table;
 		if (safe_mutex(&philo->philo_mutex, INIT) == -1)
-			break ;
+			return (-1);
 		philo->first_fork = &table->forks[(i + 1) % table->nbr_philos];
 		philo->second_fork = &table->forks[i];
 		if (philo->id % 2 == 0)
@@ -93,4 +92,5 @@ void	init_philos(t_table *table)
 		}
 		i++;
 	}
+	return (0);
 }

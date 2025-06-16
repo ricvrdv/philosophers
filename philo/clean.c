@@ -14,6 +14,14 @@
 
 void	cleanup(t_table *table)
 {
+	pthread_mutex_destroy(&table->table_mutex);
+	if (table->ready_write_mtx)
+		pthread_mutex_destroy(&table->write_mutex);
+}
+
+/*
+void	cleanup(t_table *table)
+{
 	int	i;
 
 	if (table->error_stage >= THREADS_JOINED)
@@ -40,3 +48,4 @@ void	cleanup(t_table *table)
 		table->philos = NULL;
 	}
 }
+*/

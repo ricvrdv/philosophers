@@ -50,7 +50,8 @@ static long	convert_digits(const char *str)
 
 long	ft_atol(const char *str)
 {
-	int	i;
+	int		i;
+	long	number;
 
 	i = 0;
 	if (*str == '\0')
@@ -61,7 +62,10 @@ long	ft_atol(const char *str)
 		i++;
 	else if (str[i] == '-')
 		return (-1);
-	return (convert_digits(str + i));
+	number = convert_digits(str + i);
+	if (number == 0)
+		return (-1);
+	return (number);
 }
 
 long	gettime(t_time time_code)

@@ -100,6 +100,7 @@ struct s_table
 	bool		end_simulation;
 	bool		all_threads_ready;
 	bool		simul_fail;
+	bool		ready_write_mtx;
 	t_thread	monitor;
 	t_mutex		table_mutex;
 	t_mutex		write_mutex;
@@ -114,7 +115,7 @@ int		parse_args(t_table *table, char **args);
 // INIT.C
 int		init_structs(t_table *table);
 int		init_forks(t_table *table);
-void	init_philos(t_table *table);
+int		init_philos(t_table *table);
 
 // START.C
 int		start_simulation(t_table *table);

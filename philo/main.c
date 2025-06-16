@@ -29,11 +29,9 @@ int	main(int argc, char **argv)
 	{
 		if (parse_args(&table, argv) == -1)
 		{
-			print_error("Arguments must be 0 or positive numbers\n");
-			//cleanup(&table);
+			print_error("Arguments must be positive numbers\n");
 			return (1);
 		}
-		//print_table(&table);
 		if (init_structs(&table) == -1)
 		{
 			//cleanup(&table);
@@ -46,6 +44,6 @@ int	main(int argc, char **argv)
 		}
 	}
 	else
-		print_error("Run the program with 4 or 5 arguments\n");
+		print_error("Incorrect number of arguments\n");
 	return (0);
 }
