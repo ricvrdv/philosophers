@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:06:16 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/16 11:24:05 by applecore        ###   ########.fr       */
+/*   Updated: 2025/06/16 14:08:40 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	*dinner_simulation(void *data)
 		return (NULL);
 	}
 	desynchronize_philos(philo);
-	print_thread(philo);
+	//print_thread(philo);
 	while (!simulation_finished(philo->table))
 	{
 		if (philo->full)
