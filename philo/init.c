@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:05:41 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/22 19:03:44 by applecore        ###   ########.fr       */
+/*   Updated: 2025/06/22 19:42:14 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ int	init_philos(t_table *table)
 		philo->id = i + 1;
 		philo->table = table;
 		if (safe_mutex(&philo->philo_mutex, INIT) == -1)
+		{
+			philo->philos_initialized = i;
 			return (-1);
+		}
 		philo->first_fork = &table->forks[(i + 1) % table->nbr_philos];
 		philo->second_fork = &table->forks[i];
 		if (philo->id % 2 == 0)
@@ -80,5 +83,6 @@ int	init_philos(t_table *table)
 		}
 		i++;
 	}
+	philo->philos_initialized = table->nbr_philos;
 	return (0);
 }

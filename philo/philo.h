@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:07:07 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/22 18:54:35 by applecore        ###   ########.fr       */
+/*   Updated: 2025/06/22 19:37:28 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,10 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int			id;
+	int			philos_initialized;
 	long		meal_count;
-	bool		full;
 	long		last_meal_time;
+	bool		full;
 	t_fork		*first_fork;
 	t_fork		*second_fork;
 	t_thread	thread_id;
