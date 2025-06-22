@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:05:41 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/05 13:45:22 by applecore        ###   ########.fr       */
+/*   Updated: 2025/06/22 19:03:44 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,53 +18,43 @@
 
 int	init_structs(t_table *table)
 {
-	table->end_simulation = false;
-	table->all_threads_ready = false;
-	table->simul_fail = false;
 	table->philos = safe_malloc(sizeof(t_philo) * table->nbr_philos);
 	if (!table->philos)
 		return (-1);
 	memset(table->philos, 0, sizeof(t_philo) * table->nbr_philos);
 	table->forks = safe_malloc(sizeof(t_fork) * table->nbr_philos);
 	if (!table->forks)
-		return (free(table->philos), -1);
+		return (cleanup_init(table), -1);
 	memset(table->forks, 0, sizeof(t_fork) * table->nbr_philos);
 	if (safe_mutex(&table->table_mutex, INIT) == -1)
-		return (free(table->philos), free(table->forks), -1);
+		return (cleanup_init(table), -1);
+	table->ready_table_mtx = true;
 	if (safe_mutex(&table->write_mutex, INIT) == -1)
-		return (free(table->philos), free(table->forks), -1);
+		return (cleanup_init(table), -1);
 	table->ready_write_mtx = true;
 	if (init_forks(table) == -1)
-		return (free(table->philos), free(table->forks), -1);
+		return (cleanup_init(table), -1);
 	if (init_philos(table) == -1)
-		return (free(table->philos), free(table->forks), -1);
+		return (cleanup_init(table), -1);
 	return (0);
 }
 
 int	init_forks(t_table *table)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	while (i < table->nbr_philos)
 	{
 		if (safe_mutex(&table->forks[i].fork, INIT) == -1)
 		{
-			j = 0;
-			while (j < i)
-			{
-				if (safe_mutex(&table->forks[j].fork, DESTROY) == -1)
-					return (-1);
-				j++;
-			}
-			if (safe_mutex(&table->table_mutex, DESTROY) == -1)
-				return (-1);
+			table->forks_initialized = i;
 			return (-1);
 		}
 		table->forks[i].fork_id = i;
 		i++;
 	}
+	table->forks_initialized = table->nbr_philos;
 	return (0);
 }
 
@@ -78,8 +68,6 @@ int	init_philos(t_table *table)
 	{
 		philo = &table->philos[i];
 		philo->id = i + 1;
-		philo->full = false;
-		philo->meal_count = 0;
 		philo->table = table;
 		if (safe_mutex(&philo->philo_mutex, INIT) == -1)
 			return (-1);

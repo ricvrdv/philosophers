@@ -3,18 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjesus-d <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:05:43 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/04 17:06:46 by rjesus-d         ###   ########.fr       */
+/*   Updated: 2025/06/22 19:09:53 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	cleanup(t_table *table)
+void	cleanup_init(t_table *table)
 {
-	pthread_mutex_destroy(&table->table_mutex);
+	int	i;
+
+	free(table->philos);
+	i = 0;
+	while (i < table->forks_initialized)
+	{
+		pthread_mutex_destroy(&table->forks[i].fork);
+		i++;
+	}
+	free(table->forks);
+	if (table->ready_table_mtx)
+		pthread_mutex_destroy(&table->table_mutex);
 	if (table->ready_write_mtx)
 		pthread_mutex_destroy(&table->write_mutex);
 }

@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:07:07 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/16 11:02:41 by applecore        ###   ########.fr       */
+/*   Updated: 2025/06/22 18:54:35 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_philo
 
 struct s_table
 {
+	int			forks_initialized;
 	long		nbr_philos;
 	long		time_to_die;
 	long		time_to_eat;
@@ -100,6 +101,7 @@ struct s_table
 	bool		end_simulation;
 	bool		all_threads_ready;
 	bool		simul_fail;
+	bool		ready_table_mtx;
 	bool		ready_write_mtx;
 	t_thread	monitor;
 	t_mutex		table_mutex;
@@ -155,7 +157,7 @@ int		safe_thread(pthread_t *thread, void *(*foo)(void *), void *data,
 int		safe_mutex(t_mutex *mutex, t_code op);
 
 // CLEAN.C
-void	cleanup(t_table *table);
+void	cleanup_init(t_table *table);
 
 // DEBUG.C
 void	print_table(t_table *table);
