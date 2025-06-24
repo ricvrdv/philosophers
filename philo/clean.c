@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:05:43 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/22 19:40:20 by applecore        ###   ########.fr       */
+/*   Updated: 2025/06/23 12:28:37 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ void	cleanup_init(t_table *table)
 {
 	int	i;
 
+	i = 0;
+	while (i < table->philos_initialized)
+	{
+		pthread_mutex_destroy(&table->philos[i].philo_mutex);
+		i++;
+	}
 	free(table->philos);
 	i = 0;
 	while (i < table->forks_initialized)
@@ -28,12 +34,6 @@ void	cleanup_init(t_table *table)
 		pthread_mutex_destroy(&table->table_mutex);
 	if (table->ready_write_mtx)
 		pthread_mutex_destroy(&table->write_mutex);
-	i = 0;
-	while (i < table->philos->philos_initialized)
-	{
-		pthread_mutex_destroy(&table->philos[i].philo_mutex);
-		i++;
-	}
 }
 
 /*

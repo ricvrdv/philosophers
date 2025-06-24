@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:06:16 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/16 14:08:40 by applecore        ###   ########.fr       */
+/*   Updated: 2025/06/23 11:50:57 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ int	start_simulation(t_table *table)
 		return (-1);
 	if (safe_thread(&table->monitor, NULL, NULL, JOIN) == -1)
 		return (-1);
-	//printf("\n> Created "GREEN"%ld"RESET" philosopher threads\n\n", table->nbr_philos);
 	return (0);
 }
 
@@ -91,7 +90,6 @@ void	*dinner_simulation(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	//printf("Philosopher "GREEN"%d"RESET" thread started (ID: "GREEN"%lu"RESET")\n", philo->id, philo->thread_id);
 	if (wait_all_threads(philo->table) == -1)
 	{
 		set_bool(&philo->table->table_mutex, &philo->table->simul_fail, true);
@@ -105,7 +103,6 @@ void	*dinner_simulation(void *data)
 		return (NULL);
 	}
 	desynchronize_philos(philo);
-	//print_thread(philo);
 	while (!simulation_finished(philo->table))
 	{
 		if (philo->full)

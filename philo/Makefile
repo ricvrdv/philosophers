@@ -24,8 +24,7 @@ SRC = main.c \
 	write.c \
 	utils.c \
 	safe.c \
-	clean.c \
-	debug.c
+	clean.c
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:07:07 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/22 19:37:28 by applecore        ###   ########.fr       */
+/*   Updated: 2025/06/23 11:51:36 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int			id;
-	int			philos_initialized;
 	long		meal_count;
 	long		last_meal_time;
 	bool		full;
@@ -91,6 +90,7 @@ typedef struct s_philo
 
 struct s_table
 {
+	int			philos_initialized;
 	int			forks_initialized;
 	long		nbr_philos;
 	long		time_to_die;
@@ -159,9 +159,5 @@ int		safe_mutex(t_mutex *mutex, t_code op);
 
 // CLEAN.C
 void	cleanup_init(t_table *table);
-
-// DEBUG.C
-void	print_table(t_table *table);
-void	print_thread(t_philo *philo);
 
 #endif
