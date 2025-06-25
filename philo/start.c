@@ -15,15 +15,14 @@
 int	start_simulation(t_table *table)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	if (table->nbr_limit_meals == 0)
 		return (0);
-	else if (table->nbr_philos == 1)
+	if (table->nbr_philos == 1)
 	{
 		if (safe_thread(&table->philos[0].thread_id, lone_philo, &table->philos[0], CREATE) == -1)
-			return (-1);
+			return (cleanup_init(table), -1);
 	}
 	else
 	{
@@ -32,56 +31,37 @@ int	start_simulation(t_table *table)
 			if (safe_thread(&table->philos[i].thread_id, dinner_simulation,
 					&table->philos[i], CREATE) == -1)
 			{
-				//table->error_stage = THREADS_STARTED;
-				j = 0;
-				while (j < i)
-				{
-					if (safe_thread(&table->philos[j].thread_id, NULL, NULL,
-							JOIN) == -1)
-						return (free(table->philos), free(table->forks), -1);
-					j++;
-				}
-				j = 0;
-				while (j < table->nbr_philos)
-				{
-					if (safe_mutex(&table->forks[j].fork, DESTROY) == -1)
-						return (free(table->philos), free(table->forks), -1);
-					j++;
-				}
-				if (safe_mutex(&table->table_mutex, DESTROY) == -1)
-					return (free(table->philos), free(table->forks), -1);
-				return (free(table->philos), free(table->forks), -1);
+				table->threads_started = i;
+				return (cleanup_dinner(table), -1);
 			}
 			i++;
 		}
+		table->threads_started = table->nbr_philos;
 	}
-	//table->error_stage = THREADS_STARTED;
 	if (safe_thread(&table->monitor, monitor_dinner, table, CREATE) == -1)
-		return (-1);
+		return (cleanup_dinner(table), -1);
 	table->start_simulation = gettime(MILLISECOND);
 	if (set_bool(&table->table_mutex, &table->all_threads_ready, true) != 0)
-		return (-1);
+		return (cleanup_dinner(table), -1);
 	i = 0;
 	while (i < table->nbr_philos)
 	{
-		if (safe_thread(&table->philos[i].thread_id, NULL, NULL, JOIN) == -1)
-		{
-			//table->error_stage = THREADS_JOINED;
-			return (-1);
-		}
+		pthread_join(table->philos[i].thread_id, NULL);
+		//if (safe_thread(&table->philos[i].thread_id, NULL, NULL, JOIN) == -1)
+		//	return (cleanup_dinner(table), -1);
 		i++;
 	}
-	//table->error_stage = THREADS_JOINED;
+	table->threads_joined = true;
 	if (simulation_finished(table)
 		|| get_bool(&table->table_mutex, &table->simul_fail) == 1)
 	{
 		print_error("Simulation failed inside a thread\n");
-		return (-1);
+		return (cleanup_dinner(table), -1);
 	}
 	if (set_bool(&table->table_mutex, &table->end_simulation, true) == -1)
-		return (-1);
+		return (cleanup_dinner(table), -1);
 	if (safe_thread(&table->monitor, NULL, NULL, JOIN) == -1)
-		return (-1);
+		return (cleanup_dinner(table), -1);
 	return (0);
 }
 
@@ -163,7 +143,7 @@ int	thinking(t_philo *philo, bool pre_simulation)
 	time_think = time_eat * 2 - time_sleep;
 	if (time_think < 0)
 		time_think = 0;
-	usleep(time_think * 0.42);
+	usleep(time_think * 1000);
 	return (0);
 }
 

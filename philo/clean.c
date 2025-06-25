@@ -36,6 +36,25 @@ void	cleanup_init(t_table *table)
 		pthread_mutex_destroy(&table->write_mutex);
 }
 
+void	cleanup_dinner(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	if (!table->threads_joined)
+	{
+		while (i < table->threads_started)
+		{
+			if (table->philos[i].thread_id != 0)
+				pthread_join(table->philos[i].thread_id, NULL);
+			i++;
+		}
+	}
+	if (table->monitor != 0)
+		pthread_join(table->monitor, NULL);
+	cleanup_init(table);
+}
+
 /*
 void	cleanup(t_table *table)
 {

@@ -23,9 +23,12 @@
 # include <stdbool.h>
 # include <errno.h>
 
-# define RED	"\033[1;31m"
-# define GREEN	"\033[1;32m"
-# define RESET	"\033[0m"
+# define R		"\033[1;31m"
+# define G		"\033[1;32m"
+# define Y		"\033[1;33m"
+# define C		"\033[1;36m"
+# define P		"\033[1;35m"
+# define DEF	"\033[0m"
 
 typedef enum e_status
 {
@@ -90,6 +93,7 @@ typedef struct s_philo
 
 struct s_table
 {
+	int			threads_started;
 	int			philos_initialized;
 	int			forks_initialized;
 	long		nbr_philos;
@@ -99,6 +103,7 @@ struct s_table
 	long		nbr_limit_meals;
 	long		start_simulation;
 	long		threads_running;
+	bool		threads_joined;
 	bool		end_simulation;
 	bool		all_threads_ready;
 	bool		simul_fail;
@@ -159,5 +164,6 @@ int		safe_mutex(t_mutex *mutex, t_code op);
 
 // CLEAN.C
 void	cleanup_init(t_table *table);
+void	cleanup_dinner(t_table *table);
 
 #endif

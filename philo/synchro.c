@@ -55,7 +55,7 @@ void    desynchronize_philos(t_philo *philo)
     if (philo->table->nbr_philos % 2 == 0)
     {
         if (philo->id % 2 == 0)
-            usleep(3e4);
+            usleep(1000);
     }
     else
     {

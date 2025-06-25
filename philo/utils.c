@@ -21,7 +21,7 @@ void	print_error(const char *message)
 	int	i;
 
 	i = 0;
-	write(STDERR_FILENO, RED"Error: "RESET, 18);
+	write(STDERR_FILENO, R"Error: "DEF, 18);
 	while (message[i])
 		i++;
 	write(STDERR_FILENO, message, i);
@@ -41,7 +41,7 @@ static long	convert_digits(const char *str)
 	{
 		digit = str[i] - '0';
 		if (result > (LONG_MAX - digit) / 10)
-			return (LONG_MAX);
+			return (-1);
 		result = result * 10 + digit;
 		i++;
 	}

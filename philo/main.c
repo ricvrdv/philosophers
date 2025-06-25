@@ -24,23 +24,20 @@ int	main(int argc, char **argv)
 	t_table	table;
 
 	memset(&table, 0, sizeof(table));
-	if (argc < 5 || argc > 6)
+	if (argc != 5 && argc != 6)
 	{
 		print_error("Incorrect number of arguments\n");
 		return (1);
 	}
 	if (parse_args(&table, argv) == -1)
 	{
-		print_error("Arguments must be positive numbers\n");
+		print_error("Arguments must be numeric and non-negative\n");
 		return (1);
 	}
 	if (init_structs(&table) == -1)
 		return (1);
 	if (start_simulation(&table) == -1)
-	{
-		//cleanup(&table);
 		return (1);
-	}
-	//cleanup(&table);
+	cleanup_dinner(&table);
 	return (0);
 }
