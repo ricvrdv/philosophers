@@ -25,9 +25,8 @@
 
 # define R		"\033[1;31m"
 # define G		"\033[1;32m"
-# define Y		"\033[1;33m"
-# define C		"\033[1;36m"
-# define P		"\033[1;35m"
+# define C		"\033[0;36m"
+# define P		"\033[0;35m"
 # define DEF	"\033[0m"
 
 typedef enum e_status
@@ -57,16 +56,6 @@ typedef enum e_time
 	MILLISECOND,
 	MICROSECOND,
 }	t_time;
-
-typedef enum e_stage
-{
-	NO_INIT,
-	PHILOS_ALLOCATED,
-	FORKS_ALLOCATED,
-	MTX_INITIALIZED,
-	THREADS_STARTED,
-	THREADS_JOINED,
-}	t_stage;
 
 typedef pthread_mutex_t	t_mutex;
 typedef pthread_t		t_thread;
@@ -114,7 +103,6 @@ struct s_table
 	t_mutex		write_mutex;
 	t_fork		*forks;
 	t_philo		*philos;
-	t_stage		error_stage;
 };
 
 // PARSE.C
@@ -146,7 +134,7 @@ int		count_running(t_mutex *mutex, long *value);
 void	desynchronize_philos(t_philo *philo);
 
 // MONITOR.C
-void	*monitor_dinner(void * data);
+void	*monitor_dinner(void *data);
 
 // WRITE.C
 int		write_status(t_status status, t_philo *philo);
@@ -155,6 +143,7 @@ int		write_status(t_status status, t_philo *philo);
 void	print_error(const char *message);
 long	ft_atol(const char *str);
 long	gettime(t_time time_code);
+void	precise_usleep(long usec, t_table *table);
 
 // SAFE.C
 void	*safe_malloc(size_t bytes);

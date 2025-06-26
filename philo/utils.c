@@ -89,3 +89,26 @@ long	gettime(t_time time_code)
 		return (-1);
 	}
 }
+
+void	precise_usleep(long usec, t_table *table)
+{
+	long	start;
+	long	elapsed;
+	long	rem;
+
+	start = gettime(MICROSECOND);
+	while(gettime(MICROSECOND) - start < usec)
+	{
+		if (simulation_finished(table))
+			break ;
+		elapsed = gettime(MICROSECOND) - start;
+		rem = usec - elapsed;
+		if (rem>1e3)
+			usleep(rem / 2);
+		else
+		{
+			while (gettime(MICROSECOND) - start < usec)
+				;			
+		}
+	}
+}

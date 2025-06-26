@@ -25,7 +25,7 @@ int	set_bool(t_mutex *mutex, bool *dest, bool value)
 int	get_bool(t_mutex *mutex, bool *value)
 {
 	int	ret;
-	
+
 	ret = 0;
 	if (safe_mutex(mutex, LOCK) == -1)
 		return (-1);
