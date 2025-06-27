@@ -12,6 +12,11 @@
 
 #include "philo.h"
 
+// wait_all_threads()
+// all_threads_running()
+// count_running()
+// desynchronize_philos()
+
 int	wait_all_threads(t_table *table)
 {
 	int	status;

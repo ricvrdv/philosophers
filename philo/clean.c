@@ -12,6 +12,9 @@
 
 #include "philo.h"
 
+// cleanup_init()
+// cleanup_dinner()
+
 void	cleanup_init(t_table *table)
 {
 	int	i;
@@ -55,33 +58,3 @@ void	cleanup_dinner(t_table *table)
 	cleanup_init(table);
 }
 
-/*
-void	cleanup(t_table *table)
-{
-	int	i;
-
-	if (table->error_stage >= THREADS_JOINED)
-	{
-		i = -1;
-		while (++i < table->nbr_philos)
-			pthread_join(table->philos[i].thread_id, NULL);
-	}
-	if (table->error_stage >= MTX_INITIALIZED)
-	{
-		i = -1;
-		while (++i < table->nbr_philos)
-			pthread_mutex_destroy(&table->forks[i].fork);
-		pthread_mutex_destroy(&table->table_mutex);
-	}
-	if (table->error_stage >= FORKS_ALLOCATED)
-	{
-		free(table->forks);
-		table->forks = NULL;
-	}
-	if (table->error_stage >= PHILOS_ALLOCATED)
-	{
-		free(table->philos);
-		table->philos = NULL;
-	}
-}
-*/

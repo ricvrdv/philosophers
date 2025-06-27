@@ -12,6 +12,10 @@
 
 #include "philo.h"
 
+// start_simulation()
+// dinner_simulation()
+// lone_philo()
+
 static int	start_philo_threads(t_table *table)
 {
 	int	i;

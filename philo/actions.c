@@ -12,6 +12,9 @@
 
 #include "philo.h"
 
+// eat()
+// thinking()
+
 int	eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->first_fork->fork);

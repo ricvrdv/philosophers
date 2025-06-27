@@ -12,6 +12,12 @@
 
 #include "philo.h"
 
+// set_bool()
+// get_bool()
+// set_long()
+// get_long()
+// simulation_finished()
+
 int	set_bool(t_mutex *mutex, bool *dest, bool value)
 {
 	if (safe_mutex(mutex, LOCK) == -1)
@@ -58,7 +64,6 @@ long	get_long(t_mutex *mutex, long *value)
 	return (ret);
 }
 
-// 1 if FINISHED	0 if NOT	-1 on ERROR
 int	simulation_finished(t_table *table)
 {
 	return (get_bool(&table->table_mutex, &table->end_simulation));

@@ -15,6 +15,7 @@
 // print_error()
 // ft_atol()
 // gettime()
+// precise_usleep()
 
 void	print_error(const char *message)
 {
@@ -97,18 +98,18 @@ void	precise_usleep(long usec, t_table *table)
 	long	rem;
 
 	start = gettime(MICROSECOND);
-	while(gettime(MICROSECOND) - start < usec)
+	while (gettime(MICROSECOND) - start < usec)
 	{
 		if (simulation_finished(table))
 			break ;
 		elapsed = gettime(MICROSECOND) - start;
 		rem = usec - elapsed;
-		if (rem>1e3)
+		if (rem > 1e3)
 			usleep(rem / 2);
 		else
 		{
 			while (gettime(MICROSECOND) - start < usec)
-				;			
+				;
 		}
 	}
 }

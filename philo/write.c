@@ -31,7 +31,7 @@ int	write_status(t_status status, t_philo *philo)
 	else if (status == THINKING && !simulation_finished(philo->table))
 		printf("%ld\t%d is "C"thinking"DEF"\n", timestamp, philo->id);
 	else if (status == DIED)
-		printf("%ld\t"R"%d died"DEF"\n", timestamp, philo->id);
+		printf(R"%ld\t%d died"DEF"\n", timestamp, philo->id);
 	if (safe_mutex(&philo->table->write_mutex, UNLOCK) == -1)
 		return (-1);
 	return (0);

@@ -12,6 +12,10 @@
 
 #include "philo.h"
 
+// safe_malloc()
+// safe_thread()
+// safe_mutex()
+
 void	*safe_malloc(size_t bytes)
 {
 	void	*mem;

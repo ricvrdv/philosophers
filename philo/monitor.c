@@ -12,6 +12,8 @@
 
 #include "philo.h"
 
+// monitor_dinner()
+
 static bool	philo_died(t_philo *philo)
 {
 	long	elapsed;

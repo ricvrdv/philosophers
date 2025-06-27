@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	}
 	if (parse_args(&table, argv) == -1)
 	{
-		print_error("Arguments must be numeric and non-negative\n");
+		print_error("Arguments must be numeric and positive\n");
 		return (1);
 	}
 	if (init_structs(&table) == -1)
