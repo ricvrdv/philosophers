@@ -53,8 +53,8 @@ void	cleanup_dinner(t_table *table)
 			i++;
 		}
 	}
-	if (table->monitor != 0)
-		pthread_join(table->monitor, NULL);
+	//if (table->monitor != 0)
+	//	pthread_join(table->monitor, NULL);
 	cleanup_init(table);
 }
 

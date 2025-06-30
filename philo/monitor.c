@@ -14,7 +14,21 @@
 
 // monitor_dinner()
 
-static bool	philo_died(t_philo *philo)
+bool check_death(t_philo *philo)
+{
+	long now = gettime(MILLISECOND);
+	long last = get_long(&philo->philo_mutex, &philo->last_meal_time);
+	if (now - last >= philo->table->time_to_die)
+	{
+		set_bool(&philo->philo_mutex, &philo->dead, true);
+		set_bool(&philo->table->table_mutex, &philo->table->end_simulation, true);
+		write_status(DIED, philo);
+		return (true);
+	}
+	return (false);
+}
+
+/*static bool	philo_died(t_philo *philo)
 {
 	long	elapsed;
 	long	time_to_die;
@@ -51,7 +65,7 @@ void	*monitor_dinner(void *data)
 			}
 			i++;
 		}
-		precise_usleep(1000, table);
+		precise_usleep(100, table);
 	}
 	return (NULL);
-}
+}*/

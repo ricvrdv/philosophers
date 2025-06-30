@@ -73,6 +73,7 @@ typedef struct s_philo
 	long		meal_count;
 	long		last_meal_time;
 	bool		full;
+	bool		dead;
 	t_fork		*first_fork;
 	t_fork		*second_fork;
 	t_thread	thread_id;
@@ -98,7 +99,7 @@ struct s_table
 	bool		simul_fail;
 	bool		ready_table_mtx;
 	bool		ready_write_mtx;
-	t_thread	monitor;
+	//t_thread	monitor;
 	t_mutex		table_mutex;
 	t_mutex		write_mutex;
 	t_fork		*forks;
@@ -134,7 +135,8 @@ int		count_running(t_mutex *mutex, long *value);
 void	desynchronize_philos(t_philo *philo);
 
 // MONITOR.C
-void	*monitor_dinner(void *data);
+bool check_death(t_philo *philo);
+//void	*monitor_dinner(void *data);
 
 // WRITE.C
 int		write_status(t_status status, t_philo *philo);
