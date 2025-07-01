@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:05:43 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/23 12:28:37 by applecore        ###   ########.fr       */
+/*   Updated: 2025/07/01 12:58:25 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	cleanup_dinner(t_table *table)
 			i++;
 		}
 	}
-	//if (table->monitor != 0)
-	//	pthread_join(table->monitor, NULL);
+	if (table->monitor != 0)
+		pthread_join(table->monitor, NULL);
 	cleanup_init(table);
 }
 

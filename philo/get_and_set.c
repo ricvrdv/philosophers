@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_and_set.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjesus-d <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:46:05 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/05/29 16:42:09 by rjesus-d         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:34:23 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,11 @@
 // get_long()
 // simulation_finished()
 
-int	set_bool(t_mutex *mutex, bool *dest, bool value)
+void	set_bool(t_mutex *mutex, bool *dest, bool value)
 {
-	if (safe_mutex(mutex, LOCK) == -1)
-		return (-1);
+	pthread_mutex_lock(mutex);
 	*dest = value;
-	if (safe_mutex(mutex, UNLOCK) == -1)
-		return (-1);
-	return (0);
+	pthread_mutex_unlock(mutex);
 }
 
 int	get_bool(t_mutex *mutex, bool *value)
@@ -33,34 +30,27 @@ int	get_bool(t_mutex *mutex, bool *value)
 	int	ret;
 
 	ret = 0;
-	if (safe_mutex(mutex, LOCK) == -1)
-		return (-1);
+	pthread_mutex_lock(mutex);
 	if (*value)
 		ret = 1;
-	if (safe_mutex(mutex, UNLOCK) == -1)
-		return (-1);
+	pthread_mutex_unlock(mutex);
 	return (ret);
 }
 
-int	set_long(t_mutex *mutex, long *dest, long value)
+void	set_long(t_mutex *mutex, long *dest, long value)
 {
-	if (safe_mutex(mutex, LOCK) == -1)
-		return (-1);
+	pthread_mutex_lock(mutex);
 	*dest = value;
-	if (safe_mutex(mutex, UNLOCK) == -1)
-		return (-1);
-	return (0);
+	pthread_mutex_unlock(mutex);
 }
 
 long	get_long(t_mutex *mutex, long *value)
 {
 	long	ret;
 
-	if (safe_mutex(mutex, LOCK) == -1)
-		return (-1);
+	pthread_mutex_lock(mutex);
 	ret = *value;
-	if (safe_mutex(mutex, UNLOCK) == -1)
-		return (-1);
+	pthread_mutex_unlock(mutex);
 	return (ret);
 }
 

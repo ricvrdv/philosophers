@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:06:16 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/23 11:50:57 by applecore        ###   ########.fr       */
+/*   Updated: 2025/07/01 17:41:14 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	start_philo_threads(t_table *table)
 	return (0);
 }
 
-static int	join_philo_threads(t_table *table)
+static void	join_philo_threads(t_table *table)
 {
 	int	i;
 
@@ -46,15 +46,14 @@ static int	join_philo_threads(t_table *table)
 		i++;
 	}
 	table->threads_joined = true;
-	return (0);
 }
 
 int	start_simulation(t_table *table)
 {
 	if (table->nbr_limit_meals == 0)
 		return (0);
-	//if (safe_thread(&table->monitor, monitor_dinner, table, CREATE) == -1)
-	//	return (cleanup_dinner(table), -1);
+	if (safe_thread(&table->monitor, monitor_dinner, table, CREATE) == -1)
+		return (cleanup_dinner(table), -1);
 	if (table->nbr_philos == 1)
 	{
 		if (safe_thread(&table->philos[0].thread_id,
@@ -64,17 +63,14 @@ int	start_simulation(t_table *table)
 	else if (start_philo_threads(table) == -1)
 		return (cleanup_dinner(table), -1);
 	table->start_simulation = gettime(MILLISECOND);
-	if (set_bool(&table->table_mutex, &table->all_threads_ready, true) != 0)
-		return (cleanup_dinner(table), -1);
-	if (join_philo_threads(table) == -1)
-		return (cleanup_dinner(table), -1);
+	set_bool(&table->table_mutex, &table->all_threads_ready, true);
+	join_philo_threads(table);
 	if (simulation_finished(table)
-		|| get_bool(&table->table_mutex, &table->simul_fail) == 1)
+		|| get_bool(&table->table_mutex, &table->simul_fail))
 		return (cleanup_dinner(table), -1);
-	if (set_bool(&table->table_mutex, &table->end_simulation, true) == -1)
+	set_bool(&table->table_mutex, &table->end_simulation, true);
+	if (safe_thread(&table->monitor, NULL, NULL, JOIN) == -1)
 		return (cleanup_dinner(table), -1);
-	//if (safe_thread(&table->monitor, NULL, NULL, JOIN) == -1)
-	//	return (cleanup_dinner(table), -1);
 	return (0);
 }
 
@@ -83,31 +79,16 @@ void	*dinner_simulation(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	if (wait_all_threads(philo->table) == -1)
-	{
-		set_bool(&philo->table->table_mutex, &philo->table->simul_fail, true);
-		return (NULL);
-	}
+	wait_all_threads(philo->table);
 	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECOND));
-	if (count_running(&philo->table->table_mutex,
-			&philo->table->threads_running) == -1)
-	{
-		set_bool(&philo->table->table_mutex, &philo->table->simul_fail, true);
-		return (NULL);
-	}
+	count_running(&philo->table->table_mutex, &philo->table->threads_running);
 	desynchronize_philos(philo);
 	while (!simulation_finished(philo->table) && !philo->full)
 	{
-		if (check_death(philo))
-			break ;
 		eat(philo);
-		if (check_death(philo))
-			break ;
 		write_status(SLEEPING, philo);
 		precise_usleep(philo->table->time_to_sleep * 1e3, philo->table);
 		thinking(philo, false);
-		if (check_death(philo))
-			break ;
 	}
 	return (NULL);
 }
@@ -117,24 +98,11 @@ void	*lone_philo(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-	if (wait_all_threads(philo->table) == -1)
-	{
-		set_bool(&philo->table->table_mutex, &philo->table->simul_fail, true);
-		return (NULL);
-	}
+	wait_all_threads(philo->table);
 	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECOND));
-	if (count_running(&philo->table->table_mutex,
-			&philo->table->threads_running) == -1)
-	{
-		set_bool(&philo->table->table_mutex, &philo->table->simul_fail, true);
-		return (NULL);
-	}
+	count_running(&philo->table->table_mutex, &philo->table->threads_running);
 	write_status(TAKE_FIRST_FORK, philo);
 	while (!simulation_finished(philo->table))
-	{
-		if (check_death(philo))
-			break ;
-		precise_usleep(200, philo->table);
-	}
+		usleep(200);
 	return (NULL);
 }

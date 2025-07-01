@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:37:57 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/16 11:02:23 by applecore        ###   ########.fr       */
+/*   Updated: 2025/07/01 17:39:08 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,10 @@
 // count_running()
 // desynchronize_philos()
 
-int	wait_all_threads(t_table *table)
+void	wait_all_threads(t_table *table)
 {
-	int	status;
-
-	status = get_bool(&table->table_mutex, &table->all_threads_ready);
-	while (status != 1)
-	{
-		if (status == -1)
-			return (-1);
-		status = get_bool(&table->table_mutex, &table->all_threads_ready);
-	}
-	return (status);
+	while (!get_bool(&table->table_mutex, &table->all_threads_ready))
+		;
 }
 
 int	all_threads_running(t_mutex *mutex, long *threads, long philo_nbr)
@@ -36,23 +28,18 @@ int	all_threads_running(t_mutex *mutex, long *threads, long philo_nbr)
 	bool	ret;
 
 	ret = 0;
-	if (safe_mutex(mutex, LOCK) == -1)
-		return (-1);
+	pthread_mutex_lock(mutex);
 	if (*threads == philo_nbr)
 		ret = 1;
-	if (safe_mutex(mutex, UNLOCK) == -1)
-		return (-1);
+	pthread_mutex_unlock(mutex);
 	return (ret);
 }
 
-int	count_running(t_mutex *mutex, long *value)
+void	count_running(t_mutex *mutex, long *value)
 {
-	if (safe_mutex(mutex, LOCK) == -1)
-		return (-1);
+	pthread_mutex_lock(mutex);
 	(*value)++;
-	if (safe_mutex(mutex, UNLOCK) == -1)
-		return (-1);
-	return (0);
+	pthread_mutex_unlock(mutex);
 }
 
 void	desynchronize_philos(t_philo *philo)

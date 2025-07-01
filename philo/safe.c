@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjesus-d <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:07:37 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/05/29 15:08:00 by rjesus-d         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:42:58 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	error_thread(int status, t_code op)
 			"parameters specified in attr.\n");
 	else if (status == EINVAL && op == CREATE)
 		print_error("Invalid settings in attr.\n");
-	else if (status == EINVAL && (op == JOIN || op == DETACH))
+	else if (status == EINVAL && op == JOIN)
 		print_error("thread is not a joinable thread.\n");
 	else if (status == ESRCH)
 		print_error("No thread with the ID thread could be found.\n");
@@ -57,8 +57,6 @@ int	safe_thread(pthread_t *thread, void *(*foo)(void *), void *data,
 		return (error_thread(pthread_create(thread, NULL, foo, data), op));
 	else if (op == JOIN)
 		return (error_thread(pthread_join(*thread, NULL), op));
-	else if (op == DETACH)
-		return (error_thread(pthread_detach(*thread), op));
 	else
 		return (-1);
 }

@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:01:13 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/04 12:12:17 by applecore        ###   ########.fr       */
+/*   Updated: 2025/07/01 14:38:01 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	print_error(const char *message)
 	int	i;
 
 	i = 0;
-	write(STDERR_FILENO, R"Error: "DEF, 18);
+	write(STDERR_FILENO, "Error: ", 7);
+	//write(STDERR_FILENO, R"Error: "DEF, 18);
 	while (message[i])
 		i++;
 	write(STDERR_FILENO, message, i);
@@ -104,8 +105,8 @@ void	precise_usleep(long usec, t_table *table)
 			break ;
 		elapsed = gettime(MICROSECOND) - start;
 		rem = usec - elapsed;
-		if (rem > 1e3)
-			usleep(rem / 2);
+		if (rem > 1000)
+			usleep(rem / 1000000);
 		else
 		{
 			while (gettime(MICROSECOND) - start < usec)

@@ -6,7 +6,7 @@
 /*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:07:07 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/06/23 11:51:36 by applecore        ###   ########.fr       */
+/*   Updated: 2025/07/01 17:42:05 by applecore        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef enum e_code
 {
 	CREATE,
 	JOIN,
-	DETACH,
 	LOCK,
 	UNLOCK,
 	INIT,
@@ -72,8 +71,8 @@ typedef struct s_philo
 	int			id;
 	long		meal_count;
 	long		last_meal_time;
+	bool		is_eating;
 	bool		full;
-	bool		dead;
 	t_fork		*first_fork;
 	t_fork		*second_fork;
 	t_thread	thread_id;
@@ -99,7 +98,7 @@ struct s_table
 	bool		simul_fail;
 	bool		ready_table_mtx;
 	bool		ready_write_mtx;
-	//t_thread	monitor;
+	t_thread	monitor;
 	t_mutex		table_mutex;
 	t_mutex		write_mutex;
 	t_fork		*forks;
@@ -122,24 +121,23 @@ int		thinking(t_philo *philo, bool pre_simulation);
 void	*lone_philo(void *data);
 
 // GET_AND_SET.C
-int		set_bool(t_mutex *mutex, bool *dest, bool value);
+void	set_bool(t_mutex *mutex, bool *dest, bool value);
 int		get_bool(t_mutex *mutex, bool *value);
-int		set_long(t_mutex *mutex, long *dest, long value);
+void	set_long(t_mutex *mutex, long *dest, long value);
 long	get_long(t_mutex *mutex, long *value);
 int		simulation_finished(t_table *table);
 
 // SYNCHRO.C
-int		wait_all_threads(t_table *table);
+void	wait_all_threads(t_table *table);
 int		all_threads_running(t_mutex *mutex, long *threads, long philo_nbr);
-int		count_running(t_mutex *mutex, long *value);
+void	count_running(t_mutex *mutex, long *value);
 void	desynchronize_philos(t_philo *philo);
 
 // MONITOR.C
-bool check_death(t_philo *philo);
-//void	*monitor_dinner(void *data);
+void	*monitor_dinner(void *data);
 
 // WRITE.C
-int		write_status(t_status status, t_philo *philo);
+void	write_status(t_status status, t_philo *philo);
 
 // UTILS.C
 void	print_error(const char *message);
