@@ -61,17 +61,12 @@ int	safe_thread(pthread_t *thread, void *(*foo)(void *), void *data,
 		return (-1);
 }
 
-static int	error_mutex(int status, t_code op)
+static int	error_mutex(int status)
 {
 	if (status == 0)
 		return (0);
-	if (status == EINVAL && (op == LOCK || op == UNLOCK))
-		print_error("The value specified by mutex does not refer to an "
-			"initialised mutex object.\n");
-	else if (status == EINVAL && op == INIT)
+	else if (status == EINVAL)
 		print_error("The value specified by attr is invalid.\n");
-	else if (status == EDEADLK)
-		print_error("The current thread already owns the mutex.\n");
 	else if (status == EPERM)
 		print_error("The current thread does not own the mutex.\n");
 	else if (status == ENOMEM)
@@ -84,14 +79,8 @@ static int	error_mutex(int status, t_code op)
 
 int	safe_mutex(t_mutex *mutex, t_code op)
 {
-	if (op == LOCK)
-		return (error_mutex(pthread_mutex_lock(mutex), op));
-	else if (op == UNLOCK)
-		return (error_mutex(pthread_mutex_unlock(mutex), op));
-	else if (op == INIT)
-		return (error_mutex(pthread_mutex_init(mutex, NULL), op));
-	else if (op == DESTROY)
-		return (error_mutex(pthread_mutex_destroy(mutex), op));
+	if (op == INIT)
+		return (error_mutex(pthread_mutex_init(mutex, NULL)));
 	else
 		return (-1);
 }
