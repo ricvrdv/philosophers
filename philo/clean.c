@@ -57,4 +57,3 @@ void	cleanup_dinner(t_table *table)
 		pthread_join(table->monitor, NULL);
 	cleanup_init(table);
 }
-

@@ -47,7 +47,7 @@ void	desynchronize_philos(t_philo *philo)
 	if (philo->table->nbr_philos % 2 == 0)
 	{
 		if (philo->id % 2 == 0)
-			precise_usleep(1000, philo->table);
+			precise_usleep(30000, philo->table);
 	}
 	else
 	{

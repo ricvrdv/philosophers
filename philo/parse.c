@@ -12,8 +12,32 @@
 
 #include "philo.h"
 
+static int	validate_input(char **args)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (args[i])
+	{
+		j = 0;
+		while (args[i][j])
+		{
+			if (args[i][j] == ' ')
+				j++;
+			if (args[i][j] < '0' || args[i][j] > '9')
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+
 int	parse_args(t_table *table, char **args)
 {
+	if (!validate_input(args))
+		return (-1);
 	table->nbr_philos = ft_atol(args[1]);
 	if (table->nbr_philos == -1)
 		return (-1);

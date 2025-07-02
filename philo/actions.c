@@ -50,8 +50,6 @@ int	thinking(t_philo *philo, bool pre_simulation)
 	time_think = time_eat * 2 - time_sleep;
 	if (time_think < 0)
 		time_think = 0;
-	//if (time_think > philo->table->time_to_die / 2)
-	//	time_think = philo->table->time_to_die / 2;
 	precise_usleep(time_think * 1000 * 0.46, philo->table);
 	return (0);
 }

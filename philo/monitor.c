@@ -53,7 +53,7 @@ void	*monitor_dinner(void *data)
 			}
 			i++;
 		}
-		usleep(100);
+		usleep(50);
 	}
 	return (NULL);
 }

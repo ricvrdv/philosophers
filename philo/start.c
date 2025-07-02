@@ -52,8 +52,6 @@ int	start_simulation(t_table *table)
 {
 	if (table->nbr_limit_meals == 0)
 		return (0);
-	if (safe_thread(&table->monitor, monitor_dinner, table, CREATE) == -1)
-		return (cleanup_dinner(table), -1);
 	if (table->nbr_philos == 1)
 	{
 		if (safe_thread(&table->philos[0].thread_id,
@@ -61,6 +59,8 @@ int	start_simulation(t_table *table)
 			return (cleanup_init(table), -1);
 	}
 	else if (start_philo_threads(table) == -1)
+		return (cleanup_dinner(table), -1);
+	if (safe_thread(&table->monitor, monitor_dinner, table, CREATE) == -1)
 		return (cleanup_dinner(table), -1);
 	table->start_simulation = gettime(MILLISECOND);
 	set_bool(&table->table_mutex, &table->all_threads_ready, true);
@@ -86,6 +86,8 @@ void	*dinner_simulation(void *data)
 	while (!simulation_finished(philo->table) && !philo->full)
 	{
 		eat(philo);
+		//if (get_bool(&philo->table->table_mutex, &philo->table->end_simulation))
+		//	break ;
 		write_status(SLEEPING, philo);
 		precise_usleep(philo->table->time_to_sleep * 1e3, philo->table);
 		thinking(philo, false);

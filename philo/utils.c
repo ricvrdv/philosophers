@@ -22,8 +22,7 @@ void	print_error(const char *message)
 	int	i;
 
 	i = 0;
-	write(STDERR_FILENO, "Error: ", 7);
-	//write(STDERR_FILENO, R"Error: "DEF, 18);
+	write(STDERR_FILENO, R"Error: "DEF, 18);
 	while (message[i])
 		i++;
 	write(STDERR_FILENO, message, i);

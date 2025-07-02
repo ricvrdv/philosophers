@@ -36,7 +36,6 @@ void	write_status(t_status status, t_philo *philo)
 	pthread_mutex_unlock(&philo->table->write_mutex);
 }
 
-
 /*
 int	write_status(t_status status, t_philo *philo)
 {
