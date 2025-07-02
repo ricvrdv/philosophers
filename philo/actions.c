@@ -22,9 +22,9 @@ int	eat(t_philo *philo)
 	pthread_mutex_lock(&philo->second_fork->fork);
 	write_status(TAKE_SECOND_FORK, philo);
 	set_long(&philo->philo_mutex, &philo->last_meal_time, gettime(MILLISECOND));
+	set_bool(&philo->philo_mutex, &philo->is_eating, true);
 	philo->meal_count++;
 	write_status(EATING, philo);
-	set_bool(&philo->philo_mutex, &philo->is_eating, true);
 	precise_usleep(philo->table->time_to_eat * 1e3, philo->table);
 	set_bool(&philo->philo_mutex, &philo->is_eating, false);
 	if (philo->table->nbr_limit_meals > 0

@@ -86,8 +86,6 @@ void	*dinner_simulation(void *data)
 	while (!simulation_finished(philo->table) && !philo->full)
 	{
 		eat(philo);
-		//if (get_bool(&philo->table->table_mutex, &philo->table->end_simulation))
-		//	break ;
 		write_status(SLEEPING, philo);
 		precise_usleep(philo->table->time_to_sleep * 1e3, philo->table);
 		thinking(philo, false);
