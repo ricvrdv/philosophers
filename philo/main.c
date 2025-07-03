@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rjesus-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 15:00:52 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/07/01 12:44:52 by applecore        ###   ########.fr       */
+/*   Created: 2025/07/03 20:00:54 by rjesus-d          #+#    #+#             */
+/*   Updated: 2025/07/03 20:00:56 by rjesus-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	}
 	if (parse_args(&table, argv) == -1)
 	{
-		print_error("Arguments must be numeric and positive\n");
+		print_error("Arguments must be integers and positive\n");
 		return (1);
 	}
 	if (init_structs(&table) == -1)

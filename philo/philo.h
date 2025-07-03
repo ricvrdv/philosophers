@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rjesus-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 15:07:07 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/07/01 17:42:05 by applecore        ###   ########.fr       */
+/*   Created: 2025/07/03 20:01:51 by rjesus-d          #+#    #+#             */
+/*   Updated: 2025/07/03 20:01:54 by rjesus-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,8 @@ int		init_philos(t_table *table);
 // START.C
 int		start_simulation(t_table *table);
 void	*dinner_simulation(void *data);
-int		eat(t_philo *philo);
-int		thinking(t_philo *philo, bool pre_simulation);
+void	eat(t_philo *philo);
+void	thinking(t_philo *philo, bool pre_simulation);
 void	*lone_philo(void *data);
 
 // GET_AND_SET.C

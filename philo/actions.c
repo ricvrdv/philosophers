@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: applecore <applecore@student.42.fr>        +#+  +:+       +#+        */
+/*   By: rjesus-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/26 15:48:00 by rjesus-d          #+#    #+#             */
-/*   Updated: 2025/07/01 17:30:56 by applecore        ###   ########.fr       */
+/*   Created: 2025/07/03 19:59:21 by rjesus-d          #+#    #+#             */
+/*   Updated: 2025/07/03 19:59:33 by rjesus-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // eat()
 // thinking()
 
-int	eat(t_philo *philo)
+void	eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->first_fork->fork);
 	write_status(TAKE_FIRST_FORK, philo);
@@ -32,10 +32,9 @@ int	eat(t_philo *philo)
 		set_bool(&philo->philo_mutex, &philo->full, true);
 	pthread_mutex_unlock(&philo->second_fork->fork);
 	pthread_mutex_unlock(&philo->first_fork->fork);
-	return (0);
 }
 
-int	thinking(t_philo *philo, bool pre_simulation)
+void	thinking(t_philo *philo, bool pre_simulation)
 {
 	long	time_eat;
 	long	time_sleep;
@@ -44,12 +43,11 @@ int	thinking(t_philo *philo, bool pre_simulation)
 	if (!pre_simulation)
 		write_status(THINKING, philo);
 	if (philo->table->nbr_philos % 2 == 0)
-		return (0);
+		return ;
 	time_eat = philo->table->time_to_eat;
 	time_sleep = philo->table->time_to_sleep;
 	time_think = time_eat * 2 - time_sleep;
 	if (time_think < 0)
 		time_think = 0;
 	precise_usleep(time_think * 1000 * 0.46, philo->table);
-	return (0);
 }
