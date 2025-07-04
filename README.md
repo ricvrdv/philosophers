@@ -21,7 +21,7 @@ This project implements a multi-threaded simulation where philosophers must shar
 ### KEY FEATURES
 
 ### USAGE
-1. **Compile the program**
+1. **Compile the program inside `philo` directory**
 ```bash
 make
 ```
