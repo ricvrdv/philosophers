@@ -8,6 +8,12 @@
 
 A concurrency simulation of the classic Dining Philosophers problem using POSIX threads in C. Each philosopher alternates between thinking, eating, and sleeping, all while sharing limited forks (resources) without encountering deadlocks or starvation.
 
+This project implements a multi-threaded simulation where philosophers must share forks (mutexes) while attempting to eat. The simulation handles edge cases such as:
+- Odd/even philosopher counts
+- Time-sensitive starvation checks
+- Desynchronization to avoid resource contention
+- Optional meal count to end simulation gracefully
+
 ### REPOSITORY STRUCTURE
 - `philo`: Contains `Makefile`, the header file `philo.h` and the source code for the program.
 - `README.md`: Project overview and usage instructions.
