@@ -6,7 +6,7 @@
 
 ### SUMMARY
 
-A concurrency simulation of the classic Dining Philosophers problem using POSIX threads in C. Each philosopher alternates between thinking, eating, and sleeping, all while sharing limited forks (resources) without encountering deadlocks or starvation.
+A concurrency simulation of the classic [Dining Philosophers problem][https://en.wikipedia.org/wiki/Dining_philosophers_problem] using POSIX threads in C. Each philosopher alternates between thinking, eating, and sleeping, all while sharing limited forks (resources) without encountering deadlocks or starvation.
 
 This project implements a multi-threaded simulation where philosophers must share forks (mutexes) while attempting to eat. The simulation handles edge cases such as:
 - Odd/even philosopher counts
