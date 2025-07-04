@@ -25,6 +25,7 @@ make
 ```
 ./philo 5 800 300 100 10
 ```
+The different arguments are `number_of_philos`, `time_to_die`, `time_to_eat`, `time_to_sleep` and `number_of_times_each_philosopher_must_eat`, respectively. the last argument is optional.
 
 
 
