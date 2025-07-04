@@ -25,7 +25,9 @@ make
 ```
 ./philo 5 800 300 100 10
 ```
-The different arguments are `number_of_philos`, `time_to_die`, `time_to_eat`, `time_to_sleep` and `number_of_times_each_philosopher_must_eat`, respectively. the last argument is optional.
+The different arguments are `number_of_philos`, `time_to_die` (in ms), `time_to_eat` (in ms), `time_to_sleep` (in ms) and `number_of_times_each_philosopher_must_eat`, respectively. The last argument is optional.
+
+The program prints a proper error message when the program is run with no arguments, with an incorrect number of arguments or with non-numeric arguments.
 
 
 
