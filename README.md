@@ -19,6 +19,21 @@ This project implements a multi-threaded simulation where philosophers must shar
 - `README.md`: Project overview and usage instructions.
   
 ### KEY FEATURES
+🔁 **Threaded simulation** of philosophers using `pthread`.
+
+⏱️ **Precise timing control** with custom `precise_usleep()`
+
+🧑‍⚕️ **Monitor thread** to check philosopher death without busy-waiting
+
+🔒 **Mutex-based fork access** ensuring no deadlocks
+
+🍴 **Desynchronization logic** for concurrent start handling
+
+🚫 **Lone philosopher logic** for handling single thread case
+
+⚰️ **Death detection** with millisecond precision
+
+✅ **Clean memory management** and mutex destruction
 
 ### USAGE
 1. **Compile the program inside `philo` directory**
