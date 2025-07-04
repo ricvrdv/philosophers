@@ -7,7 +7,9 @@
 ### SUMMARY
 
 ### REPOSITORY STRUCTURE
-
+- `philo`: Contains `Makefile`, the header file `philo.h` and the source code for the program.
+- `README.md`: Project overview and usage instructions.
+  
 ### KEY FEATURES
 
 ### USAGE
