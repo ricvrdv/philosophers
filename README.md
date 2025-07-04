@@ -6,6 +6,8 @@
 
 ### SUMMARY
 
+A concurrency simulation of the classic Dining Philosophers problem using POSIX threads in C. Each philosopher alternates between thinking, eating, and sleeping, all while sharing limited forks (resources) without encountering deadlocks or starvation.
+
 ### REPOSITORY STRUCTURE
 - `philo`: Contains `Makefile`, the header file `philo.h` and the source code for the program.
 - `README.md`: Project overview and usage instructions.
