@@ -3,7 +3,7 @@
 ### [MILESTONE 3]
 
 <p align="center">
-  <img src="" alt="Dinner Simulation"
+  <img src="https://github.com/ricvrdv/philosophers/blob/main/philo_simul.gif" alt="Dinner Simulation"
 </p>
 
 ### SUMMARY
