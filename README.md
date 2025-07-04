@@ -22,15 +22,15 @@ This project implements a multi-threaded simulation where philosophers must shar
 
 ### USAGE
 1. **Compile the program**
-```
+```bash
 make
 ```
 
 2. **Run the program with 5 or 6 arguments:**
-```
+```bash
 ./philo 4 410 200 200
 ```
-```
+```bash
 ./philo 5 800 300 100 10
 ```
 The different arguments are `number_of_philos`, `time_to_die` (in ms), `time_to_eat` (in ms), `time_to_sleep` (in ms) and `number_of_times_each_philosopher_must_eat`, respectively. The last argument is optional.
