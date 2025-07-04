@@ -13,3 +13,18 @@
 ### KEY FEATURES
 
 ### USAGE
+1. **Compile the program**
+```
+make
+```
+
+2. **Run the program with 5 or 6 arguments:**
+```
+./philo 4 410 200 200
+```
+```
+./philo 5 800 300 100 10
+```
+
+
+
