@@ -56,6 +56,9 @@ The program prints a proper error message when the program is run with no argume
 <p align="center">
   <img src="https://github.com/ricvrdv/philosophers/blob/main/dining_philosophers_diagram.png"
 </p>
+<p align="center">
+  Philosophers from the top and moving clockwise: [Judith Butler](https://en.wikipedia.org/wiki/Judith_Butler), [Angela Davis](https://en.wikipedia.org/wiki/Angela_Davis), [Michel Foucault](https://en.wikipedia.org/wiki/Michel_Foucault), [Karl Marx](https://en.wikipedia.org/wiki/Karl_Marx), [Paul B. Preciado](https://en.wikipedia.org/wiki/Paul_B._Preciado).
+</p>
 
 ----
 🐸 Feel free to fork, clone, or contact me for questions or feedback. 
