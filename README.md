@@ -54,7 +54,7 @@ The program prints a proper error message when the program is run with no argume
 
 ----
 <p align="center">
-  <img src="https://github.com/ricvrdv/philosophers/blob/main/philosophers_diagram.png"
+  <img src="https://github.com/ricvrdv/philosophers/blob/main/dining_philosophers_diagram.png"
 </p>
 
 ----
