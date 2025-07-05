@@ -53,6 +53,11 @@ The different arguments are `number_of_philos`, `time_to_die` (in ms), `time_to_
 The program prints a proper error message when the program is run with no arguments, with an incorrect number of arguments or with non-numeric arguments.
 
 ----
+<p align="center">
+  <img src=""
+</p>
+
+----
 🐸 Feel free to fork, clone, or contact me for questions or feedback. 
 
 
